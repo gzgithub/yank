@@ -12,3 +12,4 @@ index.html:
 
 mandoc.css: ${BSDSRCDIR}/usr.bin/mandoc/mandoc.css
 	cp ${BSDSRCDIR}/usr.bin/mandoc/mandoc.css ${.CURDIR}/mandoc.css
+.PHONY: mandoc.css
