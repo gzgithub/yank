@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="mandoc.css" type="text/css" media="all"/>
+  <title>YANK(1)</title>
+</head>
+<body>
+<table class="head">
+  <tr>
+    <td class="head-ltitle">YANK(1)</td>
+    <td class="head-vol">General Commands Manual</td>
+    <td class="head-rtitle">YANK(1)</td>
+  </tr>
+</table>
+<div class="manual-text">
+<h1 class="Sh" title="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h1>
+<code class="Nm" title="Nm">yank</code> &#x2014;
+<div class="Nd" title="Nd">yank terminal output to clipboard</div>
+<h1 class="Sh" title="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h1>
+<table class="Nm">
+  <tr>
+    <td><code class="Nm" title="Nm">yank</code></td>
+    <td>[<div class="Op"><code class="Fl" title="Fl">-lx</code> |
+      <code class="Fl" title="Fl">-v</code></div>]
+      [<div class="Op"><code class="Fl" title="Fl">-d</code>
+      <var class="Ar" title="Ar">delim</var></div>]
+      [<div class="Op"><code class="Fl" title="Fl">-g</code>
+      <var class="Ar" title="Ar">pattern</var>
+      [<div class="Op"><code class="Fl" title="Fl">-i</code></div>]</div>]
+      [<div class="Op"><code class="Fl" title="Fl">--</code>
+      <var class="Ar" title="Ar">command</var>
+      [<div class="Op"><var class="Ar" title="Ar">argument
+      ...</var></div>]</div>]</td>
+  </tr>
+</table>
+<h1 class="Sh" title="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h1>
+Read input from <span class="Pa" title="Pa">stdin</span> and display a selection
+  interface that allows a field to be selected and copied to the clipboard.
+  Fields are either recognized by a regular expression using the
+  <code class="Fl" title="Fl">-g</code> option or by splitting the input on a
+  delimiter sequence using the <code class="Fl" title="Fl">-d</code> option, see
+  <a class="Sx" title="Sx" href="#DELIMITERS">DELIMITERS</a>.
+<div class="Pp"></div>
+Using the arrow keys will move the selected field, see
+  <a class="Sx" title="Sx" href="#COMMANDS">COMMANDS</a>. Pressing the return
+  key will invoke <var class="Ar" title="Ar">command</var> and write the
+  selected field to its <span class="Pa" title="Pa">stdin</span>. The
+  <var class="Ar" title="Ar">command</var> defaults to
+  <a class="Xr" title="Xr" href="https://man.openbsd.org/xsel.1x">xsel(1x)</a>
+  but could be anything that accepts input on
+  <span class="Pa" title="Pa">stdin</span>, see
+  <a class="Sx" title="Sx" href="#EXAMPLES">EXAMPLES</a>.
+<div class="Pp"></div>
+The options are as follows:
+<dl class="Bl-tag">
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#d"><code class="Fl" title="Fl" id="d">-d</code></a>
+    <var class="Ar" title="Ar">delim</var></dt>
+  <dd>All input characters not present in <var class="Ar" title="Ar">delim</var>
+      will be recognized as fields, see
+      <a class="Sx" title="Sx" href="#DELIMITERS">DELIMITERS</a>.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#g"><code class="Fl" title="Fl" id="g">-g</code></a>
+    <var class="Ar" title="Ar">pattern</var></dt>
+  <dd>Use <var class="Ar" title="Ar">pattern</var> to recognize fields,
+      expressed as a POSIX extended regular expression.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#i"><code class="Fl" title="Fl" id="i">-i</code></a></dt>
+  <dd>Ignore case differences between <var class="Ar" title="Ar">pattern</var>
+      and the input.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#l"><code class="Fl" title="Fl" id="l">-l</code></a></dt>
+  <dd>Use the default delimiters except for space, see
+      <a class="Sx" title="Sx" href="#DELIMITERS">DELIMITERS</a>.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#v"><code class="Fl" title="Fl" id="v">-v</code></a></dt>
+  <dd>Prints version.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#x"><code class="Fl" title="Fl" id="x">-x</code></a></dt>
+  <dd>Use alternate screen.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#-"><code class="Fl" title="Fl" id="-">--</code></a>
+    <var class="Ar" title="Ar">command</var>
+    [<div class="Op"><var class="Ar" title="Ar">argument ...</var></div>]</dt>
+  <dd>Use <var class="Ar" title="Ar">command</var> with zero or more
+      <var class="Ar" title="Ar">args</var> as the yank command.</dd>
+</dl>
+<h1 class="Sh" title="Sh" id="COMMANDS"><a class="permalink" href="#COMMANDS">COMMANDS</a></h1>
+<dl class="Bl-tag">
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#Ctrl-A"><code class="Ic" title="Ic" id="Ctrl-A">Ctrl-A</code></a>
+    |
+    <a class="permalink" href="#g_2"><code class="Ic" title="Ic" id="g_2">g</code></a></dt>
+  <dd>Move selection to the first field.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#Ctrl-C"><code class="Ic" title="Ic" id="Ctrl-C">Ctrl-C</code></a>
+    |
+    <a class="permalink" href="#Ctrl-D"><code class="Ic" title="Ic" id="Ctrl-D">Ctrl-D</code></a></dt>
+  <dd>Exit without invoking the yank command.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#Ctrl-E"><code class="Ic" title="Ic" id="Ctrl-E">Ctrl-E</code></a>
+    |
+    <a class="permalink" href="#G"><code class="Ic" title="Ic" id="G">G</code></a></dt>
+  <dd>Move selection to the last field.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#Ctrl-P"><code class="Ic" title="Ic" id="Ctrl-P">Ctrl-P</code></a>/<code class="Ic" title="Ic">Ctrl-N</code>
+    |
+    <a class="permalink" href="#Left"><code class="Ic" title="Ic" id="Left">Left</code></a>/<code class="Ic" title="Ic">Right</code>
+    |
+    <a class="permalink" href="#h"><code class="Ic" title="Ic" id="h">h</code></a>/<code class="Ic" title="Ic">l</code></dt>
+  <dd>Move selection to the left or right.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#Up"><code class="Ic" title="Ic" id="Up">Up</code></a>/<code class="Ic" title="Ic">Down</code>
+    |
+    <a class="permalink" href="#j"><code class="Ic" title="Ic" id="j">j</code></a>/<code class="Ic" title="Ic">k</code></dt>
+  <dd>Move selection to the next or previous line.</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt><a class="permalink" href="#Enter"><code class="Ic" title="Ic" id="Enter">Enter</code></a></dt>
+  <dd>Exit using the selected field.</dd>
+</dl>
+<h1 class="Sh" title="Sh" id="DELIMITERS"><a class="permalink" href="#DELIMITERS">DELIMITERS</a></h1>
+If the <code class="Fl" title="Fl">-d</code> and
+  <code class="Fl" title="Fl">-g</code> options are omitted the following
+  characters are recognized as delimiters by default:
+<dl class="Bl-tag">
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt>\f</dt>
+  <dd>form feed</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt>\n</dt>
+  <dd>new line</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt>\r</dt>
+  <dd>carriage return</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt>\s</dt>
+  <dd>space</dd>
+  <dt>&#x00A0;</dt>
+  <dd>&#x00A0;</dd>
+  <dt>\t</dt>
+  <dd>horizontal tab</dd>
+</dl>
+<div class="Pp"></div>
+If the <code class="Fl" title="Fl">-d</code> option is present space is not
+  recognized as a delimiter.
+<h1 class="Sh" title="Sh" id="EXAMPLES"><a class="permalink" href="#EXAMPLES">EXAMPLES</a></h1>
+Yank an environment variable key or value:
+<div class="Pp"></div>
+<div class="Bd Bd-indent"><code class="Li">$ env | yank -d =</code></div>
+<div class="Pp"></div>
+Yank a field from a CSV file:
+<div class="Pp"></div>
+<div class="Bd Bd-indent"><code class="Li">$ yank -d \&quot;,
+  &lt;file.csv</code></div>
+<div class="Pp"></div>
+Yank a whole line using the <code class="Fl" title="Fl">-l</code> option:
+<div class="Pp"></div>
+<div class="Bd Bd-indent"><code class="Li">$ make 2&gt;&amp;1 | yank
+  -l</code></div>
+<div class="Pp"></div>
+If <span class="Pa" title="Pa">stdout</span> is not a terminal the selected
+  field will be written to <span class="Pa" title="Pa">stdout</span> and exit
+  without invoking the yank command. Kill the selected PID:
+<div class="Pp"></div>
+<div class="Bd Bd-indent"><code class="Li">$ ps ux | yank -g [0-9]+ | xargs
+  kill</code></div>
+<div class="Pp"></div>
+Yank the selected field to the clipboard as opposed of the default primary
+  clipboard:
+<div class="Pp"></div>
+<div class="Bd Bd-indent"><code class="Li">$ yank -- xsel -b</code></div>
+<h1 class="Sh" title="Sh" id="DIAGNOSTICS"><a class="permalink" href="#DIAGNOSTICS">DIAGNOSTICS</a></h1>
+The <code class="Nm" title="Nm">yank</code> utility exits&#x00A0;0 on success,
+  and&#x00A0;&gt;0 if an error occurs.
+<h1 class="Sh" title="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+  ALSO</a></h1>
+<a class="Xr" title="Xr" href="https://man.openbsd.org/re_format.7">re_format(7)</a>
+<h1 class="Sh" title="Sh" id="AUTHORS"><a class="permalink" href="#AUTHORS">AUTHORS</a></h1>
+<span class="An" title="An">Anton Lindqvist</span>
+  &lt;<a class="Mt" title="Mt" href="mailto:anton@basename.se">anton@basename.se</a>&gt;
+<h1 class="Sh" title="Sh" id="CAVEATS"><a class="permalink" href="#CAVEATS">CAVEATS</a></h1>
+Recognizing fields enclosed in brackets requires &#x2018;]&#x2019; to be present
+  before &#x2018;[&#x2019; in the argument given to the
+  <code class="Fl" title="Fl">-d</code> option, see
+  <a class="Xr" title="Xr" href="https://man.openbsd.org/re_format.7">re_format(7)</a>.</div>
+<table class="foot">
+  <tr>
+    <td class="foot-date">July 10, 2015</td>
+    <td class="foot-os">OpenBSD 6.4</td>
+  </tr>
+</table>
+</body>
+</html>
