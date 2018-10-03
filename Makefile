@@ -1,14 +1,24 @@
 MANDOC=		mandoc
-MANDOCFLAGS=	-Thtml -Oman=/yank/%N.%S,style=mandoc.css
+MANDOCFLAGS+=	-Thtml
+MANDOCFLAGS+=	-Oman="%N.%S;https://man.openbsd.org/%N.%S,style=mandoc.css"
 
 BSDSRCDIR=	/usr/src
 
-all: index.html mandoc.css
+MAN=	yank.1
+OBJ!=	for f in ${MAN}; do echo "${.CURDIR}/$$f.html"; done
 
-index.html:
-	git show master:yank.1 | ${MANDOC} ${MANDOCFLAGS} \
-		>${.CURDIR}/index.html
-.PHONY: index.html
+.BEGIN:
+.for f in ${MAN}
+	git show master:$f >$f
+.endfor
+
+all: ${OBJ} mandoc.css
+	cp ${.CURDIR}/yank.1.html ${.CURDIR}/index.html
+
+.for f in ${MAN}
+${.CURDIR}/$f.html: $f
+	${MANDOC} ${MANDOCFLAGS} $f >${.CURDIR}/$f.html
+.endfor
 
 mandoc.css: ${BSDSRCDIR}/usr.bin/mandoc/mandoc.css
 	cp ${BSDSRCDIR}/usr.bin/mandoc/mandoc.css ${.CURDIR}/mandoc.css
